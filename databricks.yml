@@ -2,15 +2,10 @@
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
 bundle:
   name: dab_project
+  uuid: ec32d6c2-7fa3-4b13-8ce7-933b85245c4a
 
 include:
   - resources/*.yml
-
-variables:
-  catalog:
-    default: "citibike_dev"
-  dev_flag:
-    default: true
 
 targets:
   dev:
@@ -21,38 +16,33 @@ targets:
     mode: development
     default: true
     workspace:
-      host: your-workspace-url # replace with your Workspace URL
+      host: https://adb-2246418697105507.7.azuredatabricks.net
+
+    presets:
+      # Set dynamic_version: true on all artifacts of type "whl".
+      # This makes "bundle deploy" add a timestamp to wheel's version before uploading,
+      # new wheel takes over the previous installation even if actual wheel version is unchanged.
+      # See https://docs.databricks.com/aws/en/dev-tools/bundles/settings
+      artifacts_dynamic_version: true
 
   test:
     mode: production
-    variables:
-      catalog:
-        default: "citibike_test"
-      dev_flag:
-        default: false
     presets:
       name_prefix: '[testing] '
     workspace:
-      host: your-workspace-url # replace with your Workspace URL
+      host: https://adb-2152226992816444.4.azuredatabricks.net
+      # We explicitly deploy to /Workspace/Users/ken@roarmarketingconcepts.com to make sure we only have a single copy.
       root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
     permissions:
-      - service_principal_name: your-service-principal-name # update with your service principal name
+      - user_name: ken@roarmarketingconcepts.com
         level: CAN_MANAGE
-    run_as:
-      service_principal_name: your-service-principal-name # update with your service principal name
 
   prod:
     mode: production
-    variables:
-      catalog:
-        default: "citibike_prod"
-      dev_flag:
-        default: false
     workspace:
-      host: your-workspace-url # replace with your Workspace URL
+      host: https://adb-1519002153062351.11.azuredatabricks.net
+      # We explicitly deploy to /Workspace/Users/ken@roarmarketingconcepts.com to make sure we only have a single copy.
       root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
     permissions:
-      - service_principal_name: your-service-principal-name # update with your service principal name
+      - user_name: ken@roarmarketingconcepts.com
         level: CAN_MANAGE
-    run_as:
-      service_principal_name: your-service-principal-name # update with your service principal name
