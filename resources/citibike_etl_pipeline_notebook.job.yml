@@ -1,3 +1,7 @@
+# Databricks Job Configuration for Citibike ETL Pipeline Notebook
+# This configuration defines the job for the Citibike ETL pipeline notebook.
+# It includes tasks for processing data from bronze to gold layers in the Databricks environment.
+
 resources:
   jobs:
     citibike_etl_pipeline_notebook:
@@ -11,6 +15,7 @@ resources:
               run_id: "{{job.run_id}}"
               task_id: "{{task.run_id}}"
               processed_timestamp: "{{job.start_time.iso_datetime}}"
+              catalog: "${var.catalog}"
             source: WORKSPACE
           job_cluster_key: citibike_etl_pipeline_notebook_cluster
         - task_key: 02_silver_citibike
@@ -30,6 +35,7 @@ resources:
               run_id: "{{job.run_id}}"
               task_id: "{{task.run_id}}"
               processed_timestamp: "{{job.start_time.iso_datetime}}"
+              catalog: "${var.catalog}"
             source: WORKSPACE
           job_cluster_key: citibike_etl_pipeline_notebook_cluster
         - task_key: 03_gold_citibike_daily_station_performance
@@ -37,6 +43,8 @@ resources:
             - task_key: 02_silver_citibike
           notebook_task:
             notebook_path: ../citibike_etl/notebooks/03_gold/03_gold_citibike_daily_station_performance.ipynb
+            base_parameters:
+              catalog: "${var.catalog}"
             source: WORKSPACE
       job_clusters:
         - job_cluster_key: citibike_etl_pipeline_notebook_cluster

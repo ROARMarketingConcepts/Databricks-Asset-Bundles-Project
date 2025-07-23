@@ -7,6 +7,10 @@ bundle:
 include:
   - resources/*.yml
 
+variables:
+  catalog:
+    default: "citibike_dev"
+
 targets:
   dev:
     # The default target uses 'mode: development' to create a development copy.
@@ -36,6 +40,8 @@ targets:
     permissions:
       - user_name: ken@roarmarketingconcepts.com
         level: CAN_MANAGE
+    variables:
+      catalog: "citibike_test"
 
   prod:
     mode: production
@@ -46,3 +52,5 @@ targets:
     permissions:
       - user_name: ken@roarmarketingconcepts.com
         level: CAN_MANAGE
+    variables:
+      catalog: "citibike_prod"
