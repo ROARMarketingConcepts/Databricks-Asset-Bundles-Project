@@ -1,9 +1,9 @@
 # Define the cluster configurations for the job
 
 variables:
-  all_purpose cluster_id:
-    lookup:
-      cluster: "Ken Wood's Cluster"
+  # all_purpose_cluster_id:
+  #   lookup:
+  #     cluster: "Ken Wood's Cluster"
       
   d4s_v3_single_node:
     type: "complex"
