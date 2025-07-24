@@ -4,8 +4,8 @@
 
 resources:
   jobs:
-    citibike_etl_pipeline_py_script:
-      name: citibike_etl_pipeline_py_script
+    citibike_etl_pipeline_python_script:
+      name: citibike_etl_pipeline_python_script
       tasks:
         - task_key: 01_bronze_citibike
           spark_python_task:
