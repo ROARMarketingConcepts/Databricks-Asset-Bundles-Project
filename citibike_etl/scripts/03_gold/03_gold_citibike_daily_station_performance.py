@@ -1,7 +1,7 @@
 from pyspark.sql.functions import avg, count, round
 import sys
 
-catalog = sys.argv[1]
+catalog = sys.argv[5]
 
 df = spark.read.table(f"{catalog}.02_silver.jc_citibike")
 

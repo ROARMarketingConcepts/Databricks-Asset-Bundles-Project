@@ -30,6 +30,8 @@ resources:
               - "{{job.start_time.iso_datetime}}"
               - "${var.catalog}"
           job_cluster_key: d4s_v3_single_node
+          libraries:
+            - whl: ../dist/*.whl
 
         - task_key: 03_gold_citibike_daily_ride_summary
           depends_on:
