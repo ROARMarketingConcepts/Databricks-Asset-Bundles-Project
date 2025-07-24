@@ -7,7 +7,17 @@ resources:
     citibike_etl_pipeline_notebook:
       name: citibike_etl_pipeline_notebook
       tasks:
+        - task_key: 00_whl_upload
+          python_wheel_task:
+            package_name: dab_project
+            entry_point: main
+          job_cluster_key: d4s_v2_single_node
+          libraries:
+            - whl: ../dist/*.whl
+
         - task_key: 01_bronze_citibike
+          depends_on:
+            - task_key: 00_whl_upload
           notebook_task:
             notebook_path: ../citibike_etl/notebooks/01_bronze/01_bronze_citibike.ipynb
             base_parameters:
@@ -20,8 +30,9 @@ resources:
           # job_cluster_key: citibike_etl_pipeline_notebook_cluster
           job_cluster_key: d4s_v3_single_node
           # existing_cluster_id: "${var.all_purpose_cluster_id}"
-          libraries:
-            - whl: ../dist/*.whl
+          # libraries:
+          #   - whl: ../dist/*.whl
+
         - task_key: 02_silver_citibike
           depends_on:
             - task_key: 01_bronze_citibike
@@ -30,6 +41,7 @@ resources:
             source: WORKSPACE
           # job_cluster_key: citibike_etl_pipeline_notebook_cluster
           job_cluster_key: d4s_v3_single_node
+
         - task_key: 03_gold_citibike_daily_ride_summary
           depends_on:
             - task_key: 02_silver_citibike
@@ -44,6 +56,7 @@ resources:
             source: WORKSPACE
           # job_cluster_key: citibike_etl_pipeline_notebook_cluster
           job_cluster_key: d4s_v3_single_node
+
         - task_key: 03_gold_citibike_daily_station_performance
           depends_on:
             - task_key: 02_silver_citibike
@@ -54,6 +67,7 @@ resources:
             source: WORKSPACE
           # job_cluster_key: citibike_etl_pipeline_notebook_cluster
           job_cluster_key: d4s_v3_single_node
+          
       job_clusters:
         - job_cluster_key: d4s_v3_single_node
           new_cluster: "${var.d4s_v3_single_node}"
