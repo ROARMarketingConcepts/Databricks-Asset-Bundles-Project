@@ -20,6 +20,8 @@ resources:
           # job_cluster_key: citibike_etl_pipeline_notebook_cluster
           job_cluster_key: d4s_v3_single_node
           # existing_cluster_id: "${var.all_purpose_cluster_id}"
+          libraries:
+            - whl: ../dist/*.whl
         - task_key: 02_silver_citibike
           depends_on:
             - task_key: 01_bronze_citibike
