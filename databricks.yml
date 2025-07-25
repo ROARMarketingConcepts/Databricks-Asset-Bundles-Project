@@ -10,6 +10,8 @@ include:
 variables:
   catalog:
     default: "citibike_dev"
+  dev_flag:
+    default: true
 
 targets:
   dev:
@@ -42,7 +44,8 @@ targets:
         level: CAN_MANAGE
     variables:
       catalog: "citibike_test"
-
+      dev_flag: 
+        default: false  # Disable development mode for test environment
   prod:
     mode: production
     workspace:
@@ -54,3 +57,5 @@ targets:
         level: CAN_MANAGE
     variables:
       catalog: "citibike_prod"
+      dev_flag: 
+        default: false  # Disable development mode for production environment

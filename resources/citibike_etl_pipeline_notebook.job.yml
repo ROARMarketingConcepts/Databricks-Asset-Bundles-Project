@@ -11,7 +11,7 @@ resources:
           python_wheel_task:
             package_name: dab_project
             entry_point: main
-          job_cluster_key: d4s_v2_single_node
+          job_cluster_key: d4s_v3_single_node
           libraries:
             - whl: ../dist/*.whl
 
